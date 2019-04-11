@@ -6,7 +6,7 @@ const APP = `file://${path.join(__dirname, 'test.html')}`;
 
 let page;
 let browser;
-const width = 1920;
+const width = 1920; // will be configurable to test responsive design
 const height = 1080;
 
 beforeAll(async () => {
@@ -23,9 +23,28 @@ afterAll(() => {
 });
 
 describe("UI Test", () => {
-  test("H1 width", async () => {
+  test("Header width", async () => {
     await page.goto(APP);
-    const h1Width = await page.evaluate(() => document.querySelector('#header').offsetWidth );
-    expect(h1Width).toEqual(1904);
+
+    const headerWidth = await page.evaluate(() =>
+      document.querySelector('#header').offsetWidth
+    );
+
+    expect(headerWidth).toEqual(1904);
+  }, 16000);
+
+  test("Flex columns widths", async () => {
+    await page.goto(APP);
+
+    const firstFlexWidth = await page.evaluate(() =>
+      document.querySelector('#first-flex').offsetWidth
+    );
+
+    const secondFlexWidth = await page.evaluate(() =>
+      document.querySelector('#second-flex').offsetWidth
+    );
+
+    expect(firstFlexWidth).toEqual(952);
+    expect(secondFlexWidth).toEqual(firstFlexWidth);
   }, 16000);
 });

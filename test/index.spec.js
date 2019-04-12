@@ -1,17 +1,19 @@
 const path = require('path');
-
 import puppeteer from "puppeteer";
+
+const dotenv = require('dotenv');
+dotenv.config();
 
 const APP = `file://${path.join(__dirname, 'test.html')}`;
 
 let page;
 let browser;
-const width = 1920; // will be configurable to test responsive design
+const width = parseInt(process.env.BROWSER_WIDTH);
 const height = 1080;
 
 beforeAll(async () => {
   browser = await puppeteer.launch({
-    headless: false,
+    headless: true,
     slowMo: 80,
     args: [`--window-size=${width},${height}`]
   });
@@ -48,3 +50,4 @@ describe("UI Test", () => {
     expect(secondFlexWidth).toEqual(firstFlexWidth);
   }, 16000);
 });
+

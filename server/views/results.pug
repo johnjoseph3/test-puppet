@@ -1,0 +1,13 @@
+html
+  head
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous")
+    title= title
+  body
+    .container
+      h1 Test results
+      div.alert(class=success ? 'alert-success' : 'alert-danger')=successMessage
+      ul.list-group
+        li.list-group-item Number of failed test suites: #{numFailedTestSuites}
+        li.list-group-item Number of failed tests: #{numFailedTests}
+        li.list-group-item Number of passed test suites: #{numPassedTestSuites}
+        li.list-group-item Number of passes tests: #{numPassedTests}

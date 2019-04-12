@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/index.js",
-    "test": "jest"
+    "start": "node server/index.js",
+    "test": "NODE_ENV=test jest"
   },
   "author": "johnjoseph3",
   "license": "ISC",
@@ -13,7 +13,12 @@
     "@babel/core": "^7.4.3",
     "@babel/preset-env": "^7.4.3",
     "babel-jest": "^24.7.1",
+    "body-parser": "^1.18.3",
+    "dotenv": "^7.0.0",
+    "express": "^4.16.4",
     "jest": "^24.7.1",
+    "mustache": "^3.0.1",
+    "pug": "^2.0.3",
     "puppeteer": "^1.14.0"
   }
 }

@@ -1,0 +1,19 @@
+html
+  head
+    link(rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous")
+    title=title
+  body
+    .container
+      h1 Configure and run tests
+      div#loader
+      form(method="POST" action="/test")
+        .form-group
+          label(for="browser-width") Browser width:
+          input.form-control(id="browser-width" name="BROWSER_WIDTH")
+        input.btn.btn-primary#submit(type="submit")
+    script.
+      const loader = document.querySelector('#loader');
+      const sumbitBtn = document.querySelector('#submit');
+      sumbitBtn.addEventListener('click', () => {
+        window.loader.innerHTML = '<div class="spinner-border text-success" role="status"><span class="sr-only">Loading...</span></div>';
+      });

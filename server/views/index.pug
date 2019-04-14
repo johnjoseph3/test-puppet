@@ -8,14 +8,33 @@ html
       //- div#loader
       div.text-center
         div#loader
-      form(method="POST" action="/test")
-        .form-group
-          label(for="browser-width") Browser width:
-          input.form-control(id="browser-width" name="BROWSER_WIDTH")
-        input.btn.btn-primary#submit(type="submit")
-    script.
-      const loader = document.querySelector('#loader');
-      const sumbitBtn = document.querySelector('#submit');
-      sumbitBtn.addEventListener('click', () => {
-        window.loader.innerHTML = '<div class="spinner-border text-success" role="status"><span class="sr-only">Loading...</span></div>';
-      });
+      form#file-upload-form(method="POST" action="/file-upload" enctype="multipart/form-data")
+        label.btn.btn-primary(for="file-upload-input") Upload HTML File
+          input#file-upload-input(type="file" style="display:none;" name="html-file")
+      </label>
+        form(method="POST" action="/test")
+          .row
+            .col-6
+              .form-group
+                label(for="browser-width") Browser width:
+                input.form-control(id="browser-width" name="BROWSER_WIDTH")
+              input.btn.btn-primary#submit(type="submit")
+      script.
+        const loader = document.querySelector('#loader');
+        const sumbitBtn = document.querySelector('#submit');
+        const fileUploadForm = document.querySelector('#file-upload-form');
+        const fileUploadInput = document.querySelector('#file-upload-input');
+        
+
+        sumbitBtn.addEventListener('click', () => {
+          window.loader.innerHTML = '<div class="spinner-border text-success" role="status"><span class="sr-only">Loading...</span></div>';
+        });
+
+        fileUploadInput.addEventListener('change', () => {
+          //- const formData = new FormData();
+          fileUploadForm.submit();
+
+          formData.append('htmlFile', fileUpload.files[0]);
+          console.log(formData.get('htmlFile'));
+          fetch('/upload-fIle', {method: 'POST', body: formData});
+        });

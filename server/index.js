@@ -1,4 +1,3 @@
-const bodyParser = require('body-parser');
 const fs = require('fs');
 const express = require('express');
 const path = require('path');
@@ -6,14 +5,26 @@ const { exec } = require('child_process');
 
 const app = express();
 
+const multer  = require('multer');
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+      cb(null, 'uploads/')
+  },
+  filename: function (req, file, cb) {
+      cb(null, 'test.html')
+  }
+});
+const upload = multer({ storage: storage });
+
+
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, '/views'));
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 app.get('/', (req, res) => {
-  res.render('index', {title: 'Test'} );
+  res.render('index');
 });
 
 app.post('/test', (req, res) => {
@@ -47,6 +58,10 @@ app.post('/test', (req, res) => {
     console.log(`child process exited with code ${code}`);
   });
 
+});
+
+app.post('/file-upload', upload.single('html-file'), (req, res) => {
+  res.redirect('/');
 });
 
 app.listen(8080);

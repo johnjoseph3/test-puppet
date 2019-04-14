@@ -4,4 +4,6 @@ Puppeteer based frond end analysis tool
 
 `npm install`
 
-`npm test`
+`npm start`
+
+Visit server at localhost:8080

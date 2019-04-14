@@ -14,8 +14,7 @@ const storage = multer.diskStorage({
       cb(null, 'test.html')
   }
 });
-const upload = multer({ storage: storage });
-
+const upload = multer({ storage: storage }).single('html-file');
 
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, '/views'));
@@ -60,8 +59,14 @@ app.post('/test', (req, res) => {
 
 });
 
-app.post('/file-upload', upload.single('html-file'), (req, res) => {
-  res.redirect('/');
+app.post('/file-upload', (req, res, next) => {
+  upload(req, res, err => {
+    if (err) {
+      res.status(500).send({ error: 'Failed to upload file' });
+    }
+  });
+  
+  res.sendStatus(200);
 });
 
 app.listen(8080);

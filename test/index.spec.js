@@ -5,7 +5,7 @@ import puppeteer from "puppeteer";
 const dotenv = require('dotenv');
 dotenv.config();
 
-const APP = `file://${path.join(__dirname, 'test.html')}`;
+const APP = `file://${path.join(__dirname, '../uploads/test.html')}`;
 
 const testParamsBuffer = fs.readFileSync(path.join(__dirname, 'test-params.json'));
 const testParams = JSON.parse(testParamsBuffer);

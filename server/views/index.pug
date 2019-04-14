@@ -5,12 +5,11 @@ html
   body
     .container
       h1 Configure and run tests
-      //- div#loader
       div.text-center
         div#loader
-      form#file-upload-form(method="POST" action="/file-upload" enctype="multipart/form-data")
-        label.btn.btn-primary(for="file-upload-input") Upload HTML File
-          input#file-upload-input(type="file" style="display:none;" name="html-file")
+      div.alert#alert(style="display:none")
+      label.btn.btn-primary(for="file-upload-input") Upload HTML File
+        input#file-upload-input(type="file" style="display:none;" name="html-file")
       </label>
         form(method="POST" action="/test")
           .row
@@ -21,20 +20,47 @@ html
               input.btn.btn-primary#submit(type="submit")
       script.
         const loader = document.querySelector('#loader');
+        const alert = document.querySelector('#alert');
         const sumbitBtn = document.querySelector('#submit');
         const fileUploadForm = document.querySelector('#file-upload-form');
         const fileUploadInput = document.querySelector('#file-upload-input');
-        
+
+        const showSpinner = (shouldShow = true) => {
+          if (shouldShow) {
+            loader.innerHTML = '<div class="spinner-border text-success" role="status"><span class="sr-only">Loading...</span></div>';
+          } else {
+            loader.innerHTML = '';
+          }
+        }
+
+        const toggleAlert = (message, className) => {
+          if (message) {
+            alert.innerText = message;
+            alert.style.display = 'block';
+            alert.classList.add(className);
+          } else {
+            alert.innerText = '';
+            alert.style.display = 'none';
+          }
+        }
 
         sumbitBtn.addEventListener('click', () => {
-          window.loader.innerHTML = '<div class="spinner-border text-success" role="status"><span class="sr-only">Loading...</span></div>';
+          showSpinner();
         });
 
         fileUploadInput.addEventListener('change', () => {
-          //- const formData = new FormData();
-          fileUploadForm.submit();
+          const formData = new FormData();
+          formData.append('html-file', fileUploadInput.files[0]);
+          showSpinner();
 
-          formData.append('htmlFile', fileUpload.files[0]);
-          console.log(formData.get('htmlFile'));
-          fetch('/upload-fIle', {method: 'POST', body: formData});
+          fetch('/file-upload', {method: 'POST', body: formData})
+            .then(res => {
+              if (res.status !== 200) {
+                toggleAlert('Could not upload file', 'alert-danger');
+              } else {
+                toggleAlert('File upload successful', 'alert-success');
+              }
+              setTimeout(() => toggleAlert(), 3000);
+              showSpinner(false);
+            })
         });

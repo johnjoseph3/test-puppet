@@ -1,8 +1,9 @@
+const bodyParser = require('body-parser');
+const fs = require('fs');
 const express = require('express');
-const bodyParser = require('body-parser')
+const path = require('path');
 const { exec } = require('child_process');
 
-const path = require('path');
 const app = express();
 
 app.set('view engine', 'pug')
@@ -15,9 +16,11 @@ app.get('/', (req, res) => {
 });
 
 app.post('/test', (req, res) => {
-  const browserWidthArg = `BROWSER_WIDTH=${req.body.BROWSER_WIDTH}`;
+  const testDataFilePath = path.join(__dirname, '../test/test-params.json');
 
-  const jest = exec(`${browserWidthArg} jest --json`);
+  fs.writeFileSync(testDataFilePath, JSON.stringify(req.body));
+
+  const jest = exec(`jest --json`);
 
   jest.stdout.on('data', (data) => {
     const results = JSON.parse(data);

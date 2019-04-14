@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node server/index.js",
-    "test": "NODE_ENV=test jest"
+    "start": "nodemon server/index.js",
+    "test": "jest"
   },
   "author": "johnjoseph3",
   "license": "ISC",
@@ -18,6 +18,7 @@
     "express": "^4.16.4",
     "jest": "^24.7.1",
     "mustache": "^3.0.1",
+    "nodemon": "^1.18.11",
     "pug": "^2.0.3",
     "puppeteer": "^1.14.0"
   }

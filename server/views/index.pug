@@ -5,7 +5,9 @@ html
   body
     .container
       h1 Configure and run tests
-      div#loader
+      //- div#loader
+      div.text-center
+        div#loader
       form(method="POST" action="/test")
         .form-group
           label(for="browser-width") Browser width:

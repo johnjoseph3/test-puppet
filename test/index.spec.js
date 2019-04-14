@@ -1,4 +1,5 @@
 const path = require('path');
+const fs = require('fs');
 import puppeteer from "puppeteer";
 
 const dotenv = require('dotenv');
@@ -6,9 +7,12 @@ dotenv.config();
 
 const APP = `file://${path.join(__dirname, 'test.html')}`;
 
+const testParamsBuffer = fs.readFileSync(path.join(__dirname, 'test-params.json'));
+const testParams = JSON.parse(testParamsBuffer);
+
 let page;
 let browser;
-const width = parseInt(process.env.BROWSER_WIDTH);
+const width = parseInt(testParams.BROWSER_WIDTH);
 const height = 1080;
 
 beforeAll(async () => {
